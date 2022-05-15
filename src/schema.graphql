@@ -1,0 +1,36 @@
+scalar UUID
+
+type User {
+  user_id: UUID!
+  email: String!
+  name: String
+  page: Page
+}
+
+type Page {
+  page_id: UUID!
+  author: User
+  title: String!
+  content: String
+}
+
+type Query {
+  user(user_id: UUID!): User
+  pages: [Page]
+  page(page_id: UUID!): Page
+}
+
+type Mutation {
+  user: UserMutations
+  page: PageMutations
+}
+
+type UserMutations {
+  create(email: String!, name: String): User
+  update(user_id: UUID!, email: String, name: String): User
+}
+
+type PageMutations {
+  create(user_id: UUID!, title: String!, content: String!): Page
+  update(page_id: UUID!, title: String, content: String): Page
+}
