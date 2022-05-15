@@ -15,24 +15,83 @@ const startServer = async () => {
         page: Page
     }
     type Page {
-      page_id: ID!
-      author_id: ID!
-      author: User
-      title: String!
-      content: String
+        page_id: ID!
+        author: User
+        title: String!
+        content: String
     }
     type Query {
-      page(page_id: Int!): Page
+        user(user_id: Int!): User
+        page(page_id: Int!): Page
+    }
+    type Mutation {
+        user: UserMutations
+        page: PageMutations
+    }
+    type UserMutations {
+        create(email: String!, name: String): User
+        update(user_id: ID!, email: String, name: String): User
+    }
+    type PageMutations {
+        create(user_id: ID!, title: String!, content: String!): Page
+        update(page_id: ID!, title: String, content: String): Page
     }
   `;
 
     const resolvers = {
         Query: {
-            page: (parent: any, args: { page_id: number }, context: any, info: any) => {
+            page: (parent: any, { page_id }: { page_id: number }, context: any, info: any) => {
                 return prisma.page.findUnique({
                     where: {
-                        page_id: args.page_id
+                        page_id
                     }
+                });
+            },
+        },
+        Mutation: {
+            page: () => ({}),
+            user: () => ({})
+        },
+        PageMutations: {
+            create: (parent: any, { user_id, title, content }: { user_id: number, title: string, content: string }, context: any, info: any) => {
+                return prisma.page.create({
+                    data: {
+                        author: { connect: { user_id } },
+                        title,
+                        content,
+                    },
+                });
+            },
+            update: (parent: any, { page_id, title, content }: { page_id: number, title?: string, content?: string }, context: any, info: any) => {
+                return prisma.page.update({
+                    where: {
+                        page_id,
+                    },
+                    data: {
+                        title,
+                        content,
+                    },
+                });
+            },
+        },
+        UserMutations: {
+            create: (parent: any, { email, name }: { email: string, name?: string }, context: any, info: any) => {
+                return prisma.user.create({
+                    data: {
+                        email,
+                        name,
+                    }
+                });
+            },
+            update: (parent: any, { user_id, email, name }: { user_id: number, email?: string, name?: string }, context: any, info: any) => {
+                return prisma.user.update({
+                    where: {
+                        user_id,
+                    },
+                    data: {
+                        email,
+                        name,
+                    },
                 });
             },
         },
