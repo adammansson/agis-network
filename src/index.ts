@@ -40,6 +40,9 @@ const startServer = async () => {
 
     const resolvers = {
         Query: {
+            pages: () => {
+                return prisma.page.findMany();
+            },
             page: (parent: any, { page_id }: { page_id: number }, context: any, info: any) => {
                 return prisma.page.findUnique({
                     where: {
