@@ -13,7 +13,14 @@ const startServer = async () => {
 
     const resolvers: Resolvers = {
         Query: {
-            pages: async() => {
+            user: (parent: any, { user_id }, context: any, info: any) => {
+                return prisma.user.findUnique({
+                    where: {
+                        user_id,
+                    }
+                });
+            },
+            pages: () => {
                 return prisma.page.findMany();
             },
             page: (parent: any, { page_id }, context: any, info: any) => {
