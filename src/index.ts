@@ -9,7 +9,7 @@ const startServer = async () => {
     const app = express()
     const httpServer = createServer(app)
 
-    const typeDefs = readFileSync("./schema.graphql", "utf8");
+    const typeDefs = readFileSync("./src/schema.graphql", "utf8");
 
     const resolvers: Resolvers = {
         Query: {
