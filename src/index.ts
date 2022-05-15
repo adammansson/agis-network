@@ -22,6 +22,7 @@ const startServer = async () => {
     }
     type Query {
         user(user_id: Int!): User
+        pages: [Page]
         page(page_id: Int!): Page
     }
     type Mutation {
