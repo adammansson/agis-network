@@ -25,7 +25,7 @@ export type Page = {
   __typename?: 'Page';
   author?: Maybe<User>;
   content?: Maybe<Scalars['String']>;
-  page_id: Scalars['UUID'];
+  page_id: Scalars['Int'];
   title: Scalars['String'];
 };
 
@@ -45,7 +45,7 @@ export type PageMutationsCreateArgs = {
 
 export type PageMutationsUpdateArgs = {
   content?: InputMaybe<Scalars['String']>;
-  page_id: Scalars['UUID'];
+  page_id: Scalars['Int'];
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -58,7 +58,7 @@ export type Query = {
 
 
 export type QueryPageArgs = {
-  page_id: Scalars['UUID'];
+  page_id: Scalars['Int'];
 };
 
 
@@ -77,7 +77,6 @@ export type User = {
 export type UserMutations = {
   __typename?: 'UserMutations';
   create?: Maybe<User>;
-  delete?: Maybe<User>;
   update?: Maybe<User>;
 };
 
@@ -85,11 +84,6 @@ export type UserMutations = {
 export type UserMutationsCreateArgs = {
   email: Scalars['String'];
   name?: InputMaybe<Scalars['String']>;
-};
-
-
-export type UserMutationsDeleteArgs = {
-  user_id: Scalars['UUID'];
 };
 
 
@@ -169,6 +163,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Page: ResolverTypeWrapper<Page>;
   PageMutations: ResolverTypeWrapper<PageMutations>;
@@ -182,6 +177,7 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
+  Int: Scalars['Int'];
   Mutation: {};
   Page: Page;
   PageMutations: PageMutations;
@@ -200,7 +196,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type PageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Page'] = ResolversParentTypes['Page']> = {
   author?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  page_id?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
+  page_id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -231,7 +227,6 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type UserMutationsResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserMutations'] = ResolversParentTypes['UserMutations']> = {
   create?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<UserMutationsCreateArgs, 'email'>>;
-  delete?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<UserMutationsDeleteArgs, 'user_id'>>;
   update?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<UserMutationsUpdateArgs, 'user_id'>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

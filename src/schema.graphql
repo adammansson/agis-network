@@ -8,7 +8,7 @@ type User {
 }
 
 type Page {
-  page_id: UUID!
+  page_id: Int!
   author: User
   title: String!
   content: String
@@ -17,7 +17,7 @@ type Page {
 type Query {
   user(user_id: UUID!): User
   pages: [Page]
-  page(page_id: UUID!): Page
+  page(page_id: Int!): Page
 }
 
 type Mutation {
@@ -32,5 +32,5 @@ type UserMutations {
 
 type PageMutations {
   create(user_id: UUID!, title: String!, content: String!): Page
-  update(page_id: UUID!, title: String, content: String): Page
+  update(page_id: Int!, title: String, content: String): Page
 }
