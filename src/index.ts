@@ -13,49 +13,32 @@ const startServer = async () => {
 
     const resolvers: Resolvers = {
         Query: {
-            user: (parent: any, { user_id }, context: any, info: any) => {
+            user: (parent: any, { id }, context: any, info: any) => {
                 return prisma.user.findUnique({
                     where: {
-                        user_id,
+                        id,
                     }
                 });
             },
+
+            users: () => {
+                return prisma.user.findMany();
+            },
+
+            page: (parent: any, { id }, context: any, info: any) => {
+                return prisma.page.findUnique({
+                    where: {
+                        id,
+                    }
+                });
+            },
+
             pages: () => {
                 return prisma.page.findMany();
             },
-            page: (parent: any, { page_id }, context: any, info: any) => {
-                return prisma.page.findUnique({
-                    where: {
-                        page_id,
-                    }
-                });
-            },
         },
         Mutation: {
-            page: () => ({}),
             user: () => ({})
-        },
-        PageMutations: {
-            create: (parent: any, { user_id, title, content }, context: any, info: any) => {
-                return prisma.page.create({
-                    data: {
-                        author: { connect: { user_id } },
-                        title,
-                        content,
-                    },
-                });
-            },
-            update: (parent: any, { page_id, title, content }, context: any, info: any) => {
-                return prisma.page.update({
-                    where: {
-                        page_id,
-                    },
-                    data: {
-                        title: title || undefined,
-                        content: content || undefined,
-                    },
-                });
-            },
         },
         UserMutations: {
             create: (parent: any, { email, name }, context: any, info: any) => {
@@ -63,18 +46,13 @@ const startServer = async () => {
                     data: {
                         email,
                         name,
+                        page: {
+                            create: {
+                                title: "no title",
+                                content: "no text",
+                            }
+                        }
                     }
-                });
-            },
-            update: (parent: any, { user_id, email, name }, context: any, info: any) => {
-                return prisma.user.update({
-                    where: {
-                        user_id,
-                    },
-                    data: {
-                        email: email || undefined,
-                        name: name || undefined,
-                    },
                 });
             },
         },

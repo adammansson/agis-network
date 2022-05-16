@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import { GraphQLResolveInfo } from 'graphql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -12,41 +12,19 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  UUID: any;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  page?: Maybe<PageMutations>;
   user?: Maybe<UserMutations>;
 };
 
 export type Page = {
   __typename?: 'Page';
-  author?: Maybe<User>;
+  author_id: Scalars['String'];
   content?: Maybe<Scalars['String']>;
-  page_id: Scalars['Int'];
-  title: Scalars['String'];
-};
-
-export type PageMutations = {
-  __typename?: 'PageMutations';
-  create?: Maybe<Page>;
-  update?: Maybe<Page>;
-};
-
-
-export type PageMutationsCreateArgs = {
-  content: Scalars['String'];
-  title: Scalars['String'];
-  user_id: Scalars['UUID'];
-};
-
-
-export type PageMutationsUpdateArgs = {
-  content?: InputMaybe<Scalars['String']>;
-  page_id: Scalars['Int'];
-  title?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+  title?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -54,43 +32,36 @@ export type Query = {
   page?: Maybe<Page>;
   pages?: Maybe<Array<Maybe<Page>>>;
   user?: Maybe<User>;
+  users?: Maybe<Array<Maybe<User>>>;
 };
 
 
 export type QueryPageArgs = {
-  page_id: Scalars['Int'];
+  id: Scalars['Int'];
 };
 
 
 export type QueryUserArgs = {
-  user_id: Scalars['UUID'];
+  id: Scalars['String'];
 };
 
 export type User = {
   __typename?: 'User';
   email: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  name: Scalars['String'];
   page?: Maybe<Page>;
-  user_id: Scalars['UUID'];
 };
 
 export type UserMutations = {
   __typename?: 'UserMutations';
   create?: Maybe<User>;
-  update?: Maybe<User>;
 };
 
 
 export type UserMutationsCreateArgs = {
   email: Scalars['String'];
-  name?: InputMaybe<Scalars['String']>;
-};
-
-
-export type UserMutationsUpdateArgs = {
-  email?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  user_id: Scalars['UUID'];
+  name: Scalars['String'];
 };
 
 
@@ -166,10 +137,8 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Page: ResolverTypeWrapper<Page>;
-  PageMutations: ResolverTypeWrapper<PageMutations>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  UUID: ResolverTypeWrapper<Scalars['UUID']>;
   User: ResolverTypeWrapper<User>;
   UserMutations: ResolverTypeWrapper<UserMutations>;
 };
@@ -180,63 +149,48 @@ export type ResolversParentTypes = {
   Int: Scalars['Int'];
   Mutation: {};
   Page: Page;
-  PageMutations: PageMutations;
   Query: {};
   String: Scalars['String'];
-  UUID: Scalars['UUID'];
   User: User;
   UserMutations: UserMutations;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  page?: Resolver<Maybe<ResolversTypes['PageMutations']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['UserMutations']>, ParentType, ContextType>;
 };
 
 export type PageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Page'] = ResolversParentTypes['Page']> = {
-  author?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  author_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  page_id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type PageMutationsResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageMutations'] = ResolversParentTypes['PageMutations']> = {
-  create?: Resolver<Maybe<ResolversTypes['Page']>, ParentType, ContextType, RequireFields<PageMutationsCreateArgs, 'content' | 'title' | 'user_id'>>;
-  update?: Resolver<Maybe<ResolversTypes['Page']>, ParentType, ContextType, RequireFields<PageMutationsUpdateArgs, 'page_id'>>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  page?: Resolver<Maybe<ResolversTypes['Page']>, ParentType, ContextType, RequireFields<QueryPageArgs, 'page_id'>>;
+  page?: Resolver<Maybe<ResolversTypes['Page']>, ParentType, ContextType, RequireFields<QueryPageArgs, 'id'>>;
   pages?: Resolver<Maybe<Array<Maybe<ResolversTypes['Page']>>>, ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'user_id'>>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 };
-
-export interface UuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['UUID'], any> {
-  name: 'UUID';
-}
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   page?: Resolver<Maybe<ResolversTypes['Page']>, ParentType, ContextType>;
-  user_id?: Resolver<ResolversTypes['UUID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserMutationsResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserMutations'] = ResolversParentTypes['UserMutations']> = {
-  create?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<UserMutationsCreateArgs, 'email'>>;
-  update?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<UserMutationsUpdateArgs, 'user_id'>>;
+  create?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<UserMutationsCreateArgs, 'email' | 'name'>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Page?: PageResolvers<ContextType>;
-  PageMutations?: PageMutationsResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  UUID?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
   UserMutations?: UserMutationsResolvers<ContextType>;
 };

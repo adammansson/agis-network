@@ -11,16 +11,17 @@ datasource db {
 }
 
 model User {
-  user_id String  @id @default(uuid())
-  email   String  @unique
-  name    String?
-  page    Page?
+  id         String   @id @default(uuid())
+  created_at DateTime @default(now())
+  email      String   @unique
+  name       String
+  page       Page?
 }
 
 model Page {
-  page_id   Int     @id @default(autoincrement())
-  author_id String  @unique
-  author    User    @relation(fields: author_id, references: user_id)
-  title     String
+  id        Int     @id @default(autoincrement())
+  title     String?
   content   String?
+  author    User    @relation(fields: [author_id], references: [id])
+  author_id String  @unique
 }
