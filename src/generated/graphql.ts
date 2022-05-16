@@ -22,8 +22,8 @@ export type Mutation = {
 export type Page = {
   __typename?: 'Page';
   author_id: Scalars['String'];
-  content?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
+  text?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -161,8 +161,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type PageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Page'] = ResolversParentTypes['Page']> = {
   author_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  text?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

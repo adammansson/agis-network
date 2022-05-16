@@ -49,7 +49,7 @@ const startServer = async () => {
                         page: {
                             create: {
                                 title: "no title.",
-                                content: "no text.",
+                                text: "no text.",
                             }
                         }
                     }
