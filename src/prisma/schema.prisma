@@ -18,9 +18,9 @@ model User {
 }
 
 model Page {
-  page_id   String  @id @default(uuid())
-  author    User    @relation(fields: author_id, references: user_id)
+  page_id   Int     @id @default(autoincrement())
   author_id String  @unique
+  author    User    @relation(fields: author_id, references: user_id)
   title     String
   content   String?
 }
